@@ -1,0 +1,36 @@
+#!/bin/bash
+if [ "$#" -ne 2 ]; then
+	echo "Invalid number of arguments" >&2
+	exit 1
+fi
+for stem in $(cat "$1"); do
+	if [ ! -e "$stem.out" ] || [ ! -r "$stem.out" ]; then
+		echo "Missing expected output" >&2
+		exit 1
+	fi
+	if [ -e "$stem.args" ] && [ -e "$stem.in" ]; then
+		actualval="$(./"$2" $(cat "$stem.args") < $stem.in)"
+	elif [ -e "$stem.args" ]; then
+		actualval="$(./"$2" $(cat "$stem.args"))"
+	elif [ -e "$stem.in" ]; then
+		actualval="$(./"$2" < $stem.in)"
+	else
+		actualval="$(./"$2")"
+	fi
+	expectedval=$(cat "$stem.out")
+	if [ "$actualval" != "$expectedval" ]; then
+		echo "Test failed: $stem"
+		echo Args:
+		if [ -e "$stem.args" ]; then
+			echo "$(cat "$stem.args")"
+		fi
+		echo Input:
+		if [ -e "$stem.in" ]; then
+			echo "$(cat "$stem.in")"
+		fi
+		echo Expected:
+		echo "$(cat "$stem.out")"
+		echo Actual:
+		echo "$actualval"
+	fi
+done

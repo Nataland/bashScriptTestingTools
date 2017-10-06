@@ -1,0 +1,4 @@
+#!/bin/bash
+ls -l
+echo "end of bash script"
+exit 0
