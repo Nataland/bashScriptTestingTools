@@ -1,12 +1,12 @@
 # bashScriptTestingTools
 Two useful testing tools to - produce output of a program and compare actual vs expected output.
 
-##To produce outputs only:
+## To produce outputs only:
 Run the following command (replace findGreater with the name of your program)
 ```
 ./produceOutputs suite.txt ./findGreater
 ```
-##To compare actual output with expected output:
+## To compare actual output with expected output:
 Run the following command (replace findGreater with the name of your program)
 ```
 ./runSuite suite.txt ./findGreater
